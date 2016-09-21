@@ -1,0 +1,12 @@
+player = mpv
+tone = helium
+alarm_timeout = 300
+location = 49.809,-97.133
+threshold = 35
+prep_time = 40
+bike_time = 60
+bus_time = 48
+run_time = 6:00
+mwf_start = 10:30
+tr_start = 8:30
+cushion = 3
