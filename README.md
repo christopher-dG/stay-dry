@@ -1,7 +1,7 @@
 # Stay Dry
 A weather-based morning alarm to avoid cycling in the rain  
 
-Stay Dry checks the day's forecast with the Dark Sky API to determine whether or not it will rain during my commutes.
+Stay Dry checks the day's forecast with the Dark Sky API to determine whether or not it will rain during my commutes, deciding whether I should bus or cycle and setting an alarm accordingly.
 
 # Dependencies
 Stay Dry needs either `mpv` or `mplayer` to play the alarm.
@@ -23,10 +23,15 @@ Options are found in `~/.config/stay-dry/config`.
 - `prep_time`: time to get ready to leave in the morning (minutes)
 - `bike_time`: time to bike to school, shower, etc. (minutes)
 - `bus_time`: time to bus to school (minutes)
-- `run_time`: time to run the script (a:bc)
-- `mwf_start`: class start time on mwf (a:bc)
-- `tr_start`: class start time on tr (a:bc)
+- `run_time`: time to run the script (ab:cd)
+- `mwf_start`: class start time on mwf (ab:cd)
+- `tr_start`: class start time on tr (ab:cd)
 - `cushion`: time to spare before class starts after arriving (minutes)
 
 # Custom tones
 You can add anything you want to the tones directory either before installing, or later in `~/.local/share/stay-dry/tones`, make sure they end with `.wav`, or edit `tone_path` in `ring()` to deal with this.
+
+# Todo
+- Base bus alarm on actual transit info (Winnipeg Transit please approve my API key request)
+- Deal with time in a more dynamic way 
+- Snooze/turn off alarm features
