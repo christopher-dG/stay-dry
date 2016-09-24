@@ -35,3 +35,4 @@ You can add anything you want to the tones directory either before installing, o
 - Base bus alarm on actual transit info (Winnipeg Transit please approve my API key request)
 - Deal with time in a more dynamic way 
 - Snooze/turn off alarm features
+- Turn this into an Android app

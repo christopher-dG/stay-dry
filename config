@@ -1,7 +1,7 @@
 player = mpv
 tone = helium
 alarm_timeout = 300
-location = 49.809,-97.133
+location = 0.000,0.000
 threshold = 35
 prep_time = 40
 bike_time = 60
