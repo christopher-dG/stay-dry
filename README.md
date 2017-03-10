@@ -1,38 +1,28 @@
 # Stay Dry
-A weather-based morning alarm to avoid cycling in the rain  
 
-Stay Dry checks the day's forecast with the Dark Sky API to determine whether or not it will rain during my commutes, deciding whether I should bus or cycle and setting an alarm accordingly.
+Stay Dry is a weather-based morning alarm for active commuters that wakes you up at the right time, no matter how you're commuting. It checks the day's forecast to determine whether or not it will rain during your commutes, decides whether you should cycle or take the bus, and sets your morning alarm accordingly.
 
-# Dependencies
-Stay Dry needs either `mpv` or `mplayer` to play the alarm.
+### Dependencies
 
-# Installation
-Just run `install.sh` to install, files are kept in `~/.local/share/stay-dry` and `~/.config/stay-dry`.
-Run `uninstall.sh` to uninstall, or simply delete the aforementioned folders.
+- `mpv`
 
-# Usage
-Scheduling a cron job to run `stay_dry.py` every morning is recommended, make sure that the time in your crontab and `run_time` in your config match.
+### Installation
 
-# Options
-Options are found in `~/.config/stay-dry/config`.
-- `player`: media player used for the alarm (mpv or mplayer)
-- `tone`: alarm tone (choose from the tones folder, don't include extension)
-- `alarm_timeout`: how long to run the alarm for (seconds)
-- `location`: coordinates for the API (get these from darksky.net)
-- `threshold`: maximum chance of rain to ignore (0-100)
-- `prep_time`: time to get ready to leave in the morning (minutes)
-- `bike_time`: time to bike to school, shower, etc. (minutes)
-- `bus_time`: time to bus to school (minutes)
-- `run_time`: time to run the script (ab:cd)
-- `mwf_start`: class start time on mwf (ab:cd)
-- `tr_start`: class start time on tr (ab:cd)
-- `cushion`: time to spare before class starts after arriving (minutes)
+`git clone https://christopher-dg/stay-dry`
+`cd stay-dry`
+`mkdir ~/.stay-dry`
+`cp -r tones config.json stay_dry.py ~/.stay-dry`
 
-# Custom tones
-You can add anything you want to the tones directory either before installing, or later in `~/.local/share/stay-dry/tones`, make sure they end with `.wav`, or edit `tone_path` in `ring()` to deal with this.
+Some stuff about crontabs here
 
-# Todo
-- Base bus alarm on actual transit info (Winnipeg Transit please approve my API key request)
-- Deal with time in a more dynamic way 
-- Snooze/turn off alarm features
-- Turn this into an Android app
+### Options
+
+Options are found in `~/.stay-dry/config.json`
+- `tone`: alarm tone (choose from the `tones` folder, include the extension)
+- `timeout`: how long to run the alarm for (seconds)
+- `threshold`: maximum chance of rain in which to cycle (0-100)
+- `location`: coordinates of your location
+- `mwf_bus`: time to wake up when bussing on MWF (hh:mm)
+- `tr_bus`: time to wake up when bussing  on TR (hh:mm)
+- `mwf_bike`: time to wake up when cycling on MWF (hh:mm)
+- `tr_bike`: time to wake up when cycling  on TR (hh:mm)
