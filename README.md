@@ -10,7 +10,7 @@ Stay Dry is a weather-based morning alarm for active commuters that wakes you up
 
 `git clone https://christopher-dg/stay-dry`
 `cd stay-dry`
-`mkdir ~/.stay-dry`
+`mkdir -p ~/.stay-dry/logs`
 `cp -r tones config.json stay_dry.py ~/.stay-dry`
 
 Some stuff about crontabs here

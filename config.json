@@ -4,7 +4,7 @@
     "threshold": 40,
     "location": "00.00,00.00",
     "mwf_bus": "7:00",
-    "tr_bus": "8:00"
+    "tr_bus": "8:00",
     "mwf_bike": "7:00",
     "tr_bike": "8:00"
 }

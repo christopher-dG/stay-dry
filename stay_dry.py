@@ -48,15 +48,21 @@ def will_it_rain():
     # Assuming an eight-hour school day - should be configurable.
     rain_later_later = weather['hourly']['data'][9]['precipProbability']
 
-    return (
+    rain = (
         rain_now > settings['threshold'] / 100 or
         rain_later > settings['threshold'] / 100 or
         rain_later_later > settings['threshold'] / 100
     )
+    log.write('It\'s %sgoing to rain.\n' % '' if rain else 'not')
+    return rain
 
 
 def get_delta(rain):
-    """Return the timedelta between now and wake up time."""
+    """
+    Return the timedelta between now and wake up time.
+    Note: this will only work if it's run after midnight,
+      i.e. on the same day that the alarm will ring.
+    """
     if datetime.today().weekday() % 2 == 0:  # MWF.
         if rain:
             sleep_delta = settings['mwf_bus'] - datetime.now()
@@ -83,14 +89,22 @@ def ring():
 
 
 if __name__ == '__main__':
+    log = open(
+        join(DATA_DIR, 'logs', '%s.log' % str(datetime.today())[:10]), 'w'
+    )
     weekday = datetime.today().weekday()
+    if weekday > 4:
+        log.write('It\'s not a weekday.\n')
+        quit()
     settings = read_config()
     key = 'mwf_' if weekday % 2 == 0 else 'tr_'
     early, late = sorted((settings[key + 'bus'], settings[key + 'bike']))
     delta = early - datetime.now() - timedelta(minutes=5)
-    print('Sleeping for %s...' % delta)
+    log.write('Sleeping for %s...\n' % delta)
     sleep(delta.total_seconds())
     delta = get_delta(will_it_rain())
-    print('Sleeping for %s...' % delta)
+    log.write('Sleeping for %s...\n' % delta)
     sleep(delta.total_seconds())
+    log.write('Time to wake up.\n')
     ring()
+    log.close()
