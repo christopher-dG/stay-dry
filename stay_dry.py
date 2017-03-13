@@ -16,7 +16,8 @@ def read_config():
     """Read a JSON config file and return a dict."""
     cfg = join(DATA_DIR, 'config.json')
     if not isfile(cfg):
-        write(open('error.log', 'w'), 'No config file found: Exiting.')
+        with open('error.log', 'w') as f:
+            write(f, 'No config file found: Exiting.')
         quit()
 
     with open(cfg) as f:
@@ -107,7 +108,8 @@ start = datetime.now().replace(hour=3, minute=0, microsecond=0)
 if datetime.now().hour >= 3:
     start += timedelta(days=1)
 delta = start - datetime.now()
-write(open('start.log', 'w'), 'Sleeping for %s.' % delta)
+with open('start.log', 'w') as f:
+    write(f, 'Sleeping for %s.' % delta)
 sleep(delta.total_seconds())
 
 # Ideally this would run once per day rather than continuously,
