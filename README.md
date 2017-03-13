@@ -13,7 +13,8 @@ Stay Dry is a weather-based morning alarm for active commuters that wakes you up
 `mkdir -p ~/.stay-dry/logs`
 `cp -r tones config.json stay_dry.py ~/.stay-dry`
 
-Some stuff about crontabs here
+### Running
+I wrote Stay Dry to run on a Raspberry Pi, so it's meant to stay on 24/7. Just run `python ~/.stay-dry/stay-dry.py` and forget about it.
 
 ### Options
 
