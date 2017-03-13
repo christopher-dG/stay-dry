@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 
 from datetime import datetime, timedelta
 from dateutil.parser import parse
@@ -7,18 +7,26 @@ from os.path import expanduser, isfile, join
 from subprocess import run
 from time import sleep
 from urllib.request import urlopen
+import logging
 
 
 API_URL = 'https://api.darksky.net/forecast'
 API_KEY = '7b74f3837ab0f63bfb389ee1a45e7295'
 DATA_DIR = join(expanduser('~'), '.stay-dry')
 
+logging.basicConfig(
+    filename=join(DATA_DIR, 'logs', '%s.log' % str(datetime.today())[:10]),
+    level=logging.INFO,
+    format='%(asctime)s: %(message)s',
+    datefmt='%I:%M:%S %p',
+)
 
 def read_config():
     """Read a JSON config file and return a dict."""
     cfg = join(DATA_DIR, 'config.json')
     if not isfile(cfg):
-        raise FileNotFoundError('No config file found: Exiting.')
+        logging.critical('No config file found: Exiting.')
+        quit()
 
     with open(cfg) as f:
         settings = load(f)
@@ -53,7 +61,7 @@ def will_it_rain():
         rain_later > settings['threshold'] / 100 or
         rain_later_later > settings['threshold'] / 100
     )
-    log.write('It\'s %sgoing to rain.\n' % '' if rain else 'not')
+    logging.info('It\'s %sgoing to rain.\n' % ('' if rain else 'not '))
     return rain
 
 
@@ -89,22 +97,18 @@ def ring():
 
 
 if __name__ == '__main__':
-    log = open(
-        join(DATA_DIR, 'logs', '%s.log' % str(datetime.today())[:10]), 'w'
-    )
-    weekday = datetime.today().weekday()
-    if weekday > 4:
-        log.write('It\'s not a weekday.\n')
-        quit()
+    # weekday = datetime.today().weekday()
+    # if weekday > 4:
+    #     logging.info('It\'s not a weekday.\n')
+    #     quit()
     settings = read_config()
-    key = 'mwf_' if weekday % 2 == 0 else 'tr_'
-    early, late = sorted((settings[key + 'bus'], settings[key + 'bike']))
-    delta = early - datetime.now() - timedelta(minutes=5)
-    log.write('Sleeping for %s...\n' % delta)
-    sleep(delta.total_seconds())
-    delta = get_delta(will_it_rain())
-    log.write('Sleeping for %s...\n' % delta)
-    sleep(delta.total_seconds())
-    log.write('Time to wake up.\n')
+    # key = 'mwf_' if weekday % 2 == 0 else 'tr_'
+    # early, late = sorted((settings[key + 'bus'], settings[key + 'bike']))
+    # delta = early - datetime.now() - timedelta(minutes=5)
+    # logging.info('Sleeping for %s...\n' % delta)
+    # sleep(delta.total_seconds())
+    # delta = get_delta(will_it_rain())
+    # logging.info('Sleeping for %s...\n' % delta)
+    # sleep(delta.total_seconds())
+    logging.info('Time to wake up.\n')
     ring()
-    log.close()
