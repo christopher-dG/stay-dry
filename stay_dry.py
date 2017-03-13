@@ -86,8 +86,11 @@ def ring():
     tone = join(DATA_DIR, 'tones', settings['tone'])
     if not isfile(tone):
         tone = join(DATA_DIR, 'tones', 'helium.wav')
-    run(['mpv', tone, '--loop-file'], timeout=settings['timeout'])
-
+    try:
+        run(('mpv', tone, '--loop=inf'), timeout=settings['timeout'])
+    except:  # Just make sure we don't crash.
+        pass
+        
 
 def write(f, msg):
     """
