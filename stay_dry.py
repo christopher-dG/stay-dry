@@ -16,8 +16,7 @@ def read_config():
     """Read a JSON config file and return a dict."""
     cfg = join(DATA_DIR, 'config.json')
     if not isfile(cfg):
-        with open(join(DATA_DIR, 'logs', 'error.log'), 'w') as f:
-            write(f, 'No config file found: Exiting.')
+        write(join(DATA_DIR, 'logs', 'error.log'), 'No config file found.')
         quit()
 
     with open(cfg) as f:
@@ -92,15 +91,16 @@ def ring():
         pass
         
 
-def write(f, msg):
+def write(fn, msg):
     """
     Write a log message to a file.
 
     Arguments:
-    f: File handle.
+    fn: File name.
     msg: Log message.
     """
-    f.write('%s: %s\n' % (datetime.now().strftime('%I:%M %p'), msg))
+    with open(fn, 'a') as f:
+        f.write('%s: %s\n' % (datetime.now().strftime('%I:%M %p'), msg))
 
 
 # --------------- Actual script starts here --------------- #
@@ -111,21 +111,14 @@ start = datetime.now().replace(hour=3, minute=0, microsecond=0)
 if datetime.now().hour >= 3:
     start += timedelta(days=1)
 delta = start - datetime.now()
-with open(join(DATA_DIR, 'logs', 'start.log'), 'w') as f:
-    write(f, 'Sleeping for %s.' % delta)
+write(join(DATA_DIR, 'logs', 'start.log'), 'Sleeping for %s.' % delta)
 sleep(delta.total_seconds())
 
 # Ideally this would run once per day rather than continuously,
 # but cron is not cooperating.
 while True:
     # This line should be reached at 03:00 every day.
-    log = open(
-        join(
-            DATA_DIR, 'logs', '%s.log' %
-            datetime.now().strftime('%m-%d-%Y')
-        ),
-        'w'
-    )
+    log = join(DATA_DIR, 'logs', '%s.log' % datetime.now().strftime('%m-%d-%Y'))  # noqa
 
     weekday = datetime.now().weekday()
     if weekday > 4:
